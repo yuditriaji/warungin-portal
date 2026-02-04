@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.warungin.com';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://warungin-backend.onrender.com';
 
 // Token management
 export const getToken = () => {
