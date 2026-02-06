@@ -3,33 +3,34 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { getMe, logout, isAuthenticated, PortalUser } from '@/lib/api';
+import PWAInstallPrompt from '@/components/PWAInstallPrompt';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-    const router = useRouter();
-    const pathname = usePathname();
-    const [user, setUser] = useState<PortalUser | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
+  const [user, setUser] = useState<PortalUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-    useEffect(() => {
-        if (!isAuthenticated()) {
-            router.push('/login');
-            return;
-        }
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push('/login');
+      return;
+    }
 
-        getMe()
-            .then(setUser)
-            .catch(() => {
-                logout();
-            })
-            .finally(() => setLoading(false));
-    }, [router]);
+    getMe()
+      .then(setUser)
+      .catch(() => {
+        logout();
+      })
+      .finally(() => setLoading(false));
+  }, [router]);
 
-    if (loading) {
-        return (
-            <div className="loading-screen">
-                <div className="spinner"></div>
-                <style jsx>{`
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <style jsx>{`
           .loading-screen {
             min-height: 100vh;
             display: flex;
@@ -47,74 +48,74 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           }
           @keyframes spin { to { transform: rotate(360deg); } }
         `}</style>
+      </div>
+    );
+  }
+
+  const isSuperAdmin = user?.role === 'super_admin';
+
+  const navItems = isSuperAdmin
+    ? [
+      { href: '/dashboard', label: 'Dashboard', icon: '📊' },
+      { href: '/dashboard/affiliators', label: 'Affiliators', icon: '👥' },
+      { href: '/dashboard/tenants', label: 'Tenants', icon: '🏪' },
+      { href: '/dashboard/earnings', label: 'Earnings', icon: '💰' },
+      { href: '/dashboard/payouts', label: 'Payouts', icon: '💸' },
+    ]
+    : [
+      { href: '/dashboard', label: 'Dashboard', icon: '📊' },
+      { href: '/dashboard/my-tenants', label: 'My Tenants', icon: '🏪' },
+      { href: '/dashboard/earnings', label: 'Earnings', icon: '💰' },
+    ];
+
+  return (
+    <div className="layout">
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <span className="logo">🎯</span>
+          <span className="logo-text">Warungin Portal</span>
+        </div>
+
+        <nav className="nav">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className={`nav-item ${pathname === item.href ? 'active' : ''}`}
+            >
+              <span className="nav-icon">{item.icon}</span>
+              <span className="nav-label">{item.label}</span>
+            </a>
+          ))}
+        </nav>
+
+        <div className="sidebar-footer">
+          <div className="user-info">
+            <div className="user-avatar">{user?.name?.charAt(0) || 'U'}</div>
+            <div className="user-details">
+              <div className="user-name">{user?.name}</div>
+              <div className="user-role">{user?.role === 'super_admin' ? 'Super Admin' : 'Affiliator'}</div>
             </div>
-        );
-    }
+          </div>
+          <button onClick={logout} className="logout-btn">Logout</button>
+        </div>
+      </aside>
 
-    const isSuperAdmin = user?.role === 'super_admin';
+      <main className="main-content">
+        <header className="top-bar">
+          <button className="menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+            ☰
+          </button>
+          {user?.role === 'affiliator' && user.referral_code && (
+            <div className="referral-badge">
+              Your Code: <strong>{user.referral_code}</strong>
+            </div>
+          )}
+        </header>
+        <div className="content">{children}</div>
+      </main>
 
-    const navItems = isSuperAdmin
-        ? [
-            { href: '/dashboard', label: 'Dashboard', icon: '📊' },
-            { href: '/dashboard/affiliators', label: 'Affiliators', icon: '👥' },
-            { href: '/dashboard/tenants', label: 'Tenants', icon: '🏪' },
-            { href: '/dashboard/earnings', label: 'Earnings', icon: '💰' },
-            { href: '/dashboard/payouts', label: 'Payouts', icon: '💸' },
-        ]
-        : [
-            { href: '/dashboard', label: 'Dashboard', icon: '📊' },
-            { href: '/dashboard/my-tenants', label: 'My Tenants', icon: '🏪' },
-            { href: '/dashboard/earnings', label: 'Earnings', icon: '💰' },
-        ];
-
-    return (
-        <div className="layout">
-            <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-                <div className="sidebar-header">
-                    <span className="logo">🎯</span>
-                    <span className="logo-text">Warungin Portal</span>
-                </div>
-
-                <nav className="nav">
-                    {navItems.map((item) => (
-                        <a
-                            key={item.href}
-                            href={item.href}
-                            className={`nav-item ${pathname === item.href ? 'active' : ''}`}
-                        >
-                            <span className="nav-icon">{item.icon}</span>
-                            <span className="nav-label">{item.label}</span>
-                        </a>
-                    ))}
-                </nav>
-
-                <div className="sidebar-footer">
-                    <div className="user-info">
-                        <div className="user-avatar">{user?.name?.charAt(0) || 'U'}</div>
-                        <div className="user-details">
-                            <div className="user-name">{user?.name}</div>
-                            <div className="user-role">{user?.role === 'super_admin' ? 'Super Admin' : 'Affiliator'}</div>
-                        </div>
-                    </div>
-                    <button onClick={logout} className="logout-btn">Logout</button>
-                </div>
-            </aside>
-
-            <main className="main-content">
-                <header className="top-bar">
-                    <button className="menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
-                        ☰
-                    </button>
-                    {user?.role === 'affiliator' && user.referral_code && (
-                        <div className="referral-badge">
-                            Your Code: <strong>{user.referral_code}</strong>
-                        </div>
-                    )}
-                </header>
-                <div className="content">{children}</div>
-            </main>
-
-            <style jsx>{`
+      <style jsx>{`
         .layout {
           display: flex;
           min-height: 100vh;
@@ -255,6 +256,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           padding: 24px;
         }
       `}</style>
-        </div>
-    );
+
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
+    </div>
+  );
 }
