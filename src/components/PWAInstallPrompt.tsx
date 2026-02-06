@@ -77,49 +77,155 @@ export default function PWAInstallPrompt() {
         return null;
     }
 
+    const styles = {
+        container: {
+            position: 'fixed' as const,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 9999,
+            padding: '12px',
+        },
+        card: {
+            maxWidth: '380px',
+            margin: '0 auto',
+            background: 'white',
+            borderRadius: '16px',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
+            overflow: 'hidden',
+        },
+        header: {
+            padding: '16px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+        headerContent: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+        },
+        iconBox: {
+            width: '40px',
+            height: '40px',
+            background: 'white',
+            borderRadius: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        title: {
+            color: 'white',
+            margin: 0,
+            fontSize: '16px',
+            fontWeight: 600,
+        },
+        subtitle: {
+            color: 'rgba(255,255,255,0.9)',
+            margin: 0,
+            fontSize: '12px',
+        },
+        closeBtn: {
+            background: 'none',
+            border: 'none',
+            color: 'rgba(255,255,255,0.8)',
+            cursor: 'pointer',
+            padding: '4px',
+            fontSize: '20px',
+        },
+        body: {
+            padding: '16px',
+        },
+        bodyText: {
+            fontSize: '13px',
+            color: '#666',
+            marginBottom: '12px',
+        },
+        step: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            fontSize: '13px',
+            color: '#333',
+            marginBottom: '8px',
+        },
+        stepNumber: {
+            width: '22px',
+            height: '22px',
+            background: '#f0e6ff',
+            color: '#7c3aed',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '11px',
+            fontWeight: 700,
+            flexShrink: 0,
+        },
+        buttons: {
+            display: 'flex',
+            gap: '10px',
+            marginTop: '16px',
+        },
+        laterBtn: {
+            flex: 1,
+            padding: '12px',
+            background: '#f0f0f0',
+            border: 'none',
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: 500,
+            color: '#666',
+            cursor: 'pointer',
+        },
+        installBtn: {
+            flex: 1,
+            padding: '12px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            border: 'none',
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: 500,
+            color: 'white',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+        },
+    };
+
     // iOS specific instructions
     if (isIOS) {
         return (
-            <div className="fixed bottom-0 left-0 right-0 z-50 p-4 animate-slide-up">
-                <div className="max-w-md mx-auto bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
-                    <div className="p-4 bg-gradient-to-r from-purple-600 to-purple-700">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-                                    <img src="/favicon.ico" alt="Warungin" className="w-6 h-6" />
-                                </div>
-                                <div className="text-white">
-                                    <h3 className="font-semibold">Install Warungin</h3>
-                                    <p className="text-xs opacity-90">Akses lebih cepat dari Home Screen</p>
-                                </div>
+            <div style={styles.container} className="animate-slide-up">
+                <div style={styles.card}>
+                    <div style={styles.header}>
+                        <div style={styles.headerContent}>
+                            <div style={styles.iconBox}>
+                                <span style={{ fontSize: '20px' }}>🎯</span>
                             </div>
-                            <button onClick={handleDismiss} className="text-white/80 hover:text-white p-1">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
+                            <div>
+                                <h3 style={styles.title}>Install Portal</h3>
+                                <p style={styles.subtitle}>Akses cepat dari Home Screen</p>
+                            </div>
                         </div>
+                        <button onClick={handleDismiss} style={styles.closeBtn}>✕</button>
                     </div>
-                    <div className="p-4 bg-gray-50">
-                        <p className="text-sm text-gray-600 mb-3">
-                            Untuk menginstall di iPhone/iPad:
-                        </p>
-                        <div className="space-y-2">
-                            <div className="flex items-center gap-3 text-sm text-gray-700">
-                                <span className="flex items-center justify-center w-6 h-6 bg-purple-100 text-purple-600 rounded-full text-xs font-bold">1</span>
-                                <span>Tap tombol <strong>Share</strong> di Safari</span>
-                                <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2L8 6h3v8h2V6h3L12 2zM4 12v10h16V12h-2v8H6v-8H4z" />
-                                </svg>
-                            </div>
-                            <div className="flex items-center gap-3 text-sm text-gray-700">
-                                <span className="flex items-center justify-center w-6 h-6 bg-purple-100 text-purple-600 rounded-full text-xs font-bold">2</span>
-                                <span>Pilih <strong>"Add to Home Screen"</strong></span>
-                            </div>
-                            <div className="flex items-center gap-3 text-sm text-gray-700">
-                                <span className="flex items-center justify-center w-6 h-6 bg-purple-100 text-purple-600 rounded-full text-xs font-bold">3</span>
-                                <span>Tap <strong>"Add"</strong> untuk konfirmasi</span>
-                            </div>
+                    <div style={styles.body}>
+                        <p style={styles.bodyText}>Untuk install di iPhone/iPad:</p>
+                        <div style={styles.step}>
+                            <span style={styles.stepNumber}>1</span>
+                            <span>Tap <strong>Share</strong> di Safari ⬆️</span>
+                        </div>
+                        <div style={styles.step}>
+                            <span style={styles.stepNumber}>2</span>
+                            <span>Pilih <strong>&quot;Add to Home Screen&quot;</strong></span>
+                        </div>
+                        <div style={styles.step}>
+                            <span style={styles.stepNumber}>3</span>
+                            <span>Tap <strong>&quot;Add&quot;</strong></span>
                         </div>
                     </div>
                 </div>
@@ -130,40 +236,30 @@ export default function PWAInstallPrompt() {
     // Android/Desktop install prompt
     if (deferredPrompt) {
         return (
-            <div className="fixed bottom-0 left-0 right-0 z-50 p-4 animate-slide-up">
-                <div className="max-w-md mx-auto bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
-                    <div className="p-4">
-                        <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                <img src="/favicon.ico" alt="Warungin" className="w-7 h-7" />
+            <div style={styles.container} className="animate-slide-up">
+                <div style={styles.card}>
+                    <div style={styles.header}>
+                        <div style={styles.headerContent}>
+                            <div style={styles.iconBox}>
+                                <span style={{ fontSize: '20px' }}>🎯</span>
                             </div>
-                            <div className="flex-1 min-w-0">
-                                <h3 className="font-bold text-gray-900">Install Warungin</h3>
-                                <p className="text-sm text-gray-500 mt-0.5">
-                                    Akses lebih cepat langsung dari Home Screen. Tidak perlu buka browser!
-                                </p>
+                            <div>
+                                <h3 style={styles.title}>Install Portal</h3>
+                                <p style={styles.subtitle}>Akses cepat dari Home Screen</p>
                             </div>
-                            <button onClick={handleDismiss} className="text-gray-400 hover:text-gray-600 p-1 flex-shrink-0">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
                         </div>
-                        <div className="mt-4 flex gap-3">
-                            <button
-                                onClick={handleDismiss}
-                                className="flex-1 px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
-                            >
-                                Nanti saja
+                        <button onClick={handleDismiss} style={styles.closeBtn}>✕</button>
+                    </div>
+                    <div style={styles.body}>
+                        <p style={styles.bodyText}>
+                            Install Warungin Portal untuk akses lebih cepat tanpa buka browser.
+                        </p>
+                        <div style={styles.buttons}>
+                            <button onClick={handleDismiss} style={styles.laterBtn}>
+                                Nanti
                             </button>
-                            <button
-                                onClick={handleInstallClick}
-                                className="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-xl transition-all flex items-center justify-center gap-2"
-                            >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Install
+                            <button onClick={handleInstallClick} style={styles.installBtn}>
+                                ⬇️ Install
                             </button>
                         </div>
                     </div>

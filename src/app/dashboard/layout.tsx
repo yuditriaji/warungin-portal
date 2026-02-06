@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
   const [user, setUser] = useState<PortalUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -74,6 +74,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="sidebar-header">
           <span className="logo">🎯</span>
           <span className="logo-text">Warungin Portal</span>
+          <button className="close-sidebar" onClick={() => setSidebarOpen(false)}>✕</button>
         </div>
 
         <nav className="nav">
@@ -82,6 +83,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               key={item.href}
               href={item.href}
               className={`nav-item ${pathname === item.href ? 'active' : ''}`}
+              onClick={() => setSidebarOpen(false)}
             >
               <span className="nav-icon">{item.icon}</span>
               <span className="nav-label">{item.label}</span>
@@ -100,6 +102,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <button onClick={logout} className="logout-btn">Logout</button>
         </div>
       </aside>
+
+      {/* Mobile overlay */}
+      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
 
       <main className="main-content">
         <header className="top-bar">
@@ -128,31 +133,76 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           color: white;
           display: flex;
           flex-direction: column;
-          transition: transform 0.3s;
+          transition: transform 0.3s ease;
           position: fixed;
           height: 100vh;
-          z-index: 100;
+          z-index: 1000;
+          left: 0;
+          top: 0;
         }
 
         @media (max-width: 768px) {
-          .sidebar { transform: translateX(-100%); }
-          .sidebar.open { transform: translateX(0); }
+          .sidebar { 
+            transform: translateX(-100%); 
+            width: 280px;
+          }
+          .sidebar.open { 
+            transform: translateX(0); 
+            box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+          }
+        }
+
+        .sidebar-overlay {
+          display: none;
+        }
+
+        @media (max-width: 768px) {
+          .sidebar-overlay {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+          }
         }
 
         .sidebar-header {
-          padding: 24px 20px;
+          padding: 20px;
           border-bottom: 1px solid rgba(255,255,255,0.1);
           display: flex;
           align-items: center;
           gap: 12px;
         }
 
+        .close-sidebar {
+          display: none;
+          margin-left: auto;
+          background: none;
+          border: none;
+          color: rgba(255,255,255,0.7);
+          font-size: 20px;
+          cursor: pointer;
+          padding: 4px 8px;
+        }
+
+        @media (max-width: 768px) {
+          .close-sidebar { display: block; }
+        }
+
+        .close-sidebar:hover {
+          color: white;
+        }
+
         .logo { font-size: 28px; }
-        .logo-text { font-size: 18px; font-weight: 600; }
+        .logo-text { font-size: 18px; font-weight: 600; flex: 1; }
 
         .nav {
           flex: 1;
           padding: 16px 12px;
+          overflow-y: auto;
         }
 
         .nav-item {
@@ -196,9 +246,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           align-items: center;
           justify-content: center;
           font-weight: 600;
+          flex-shrink: 0;
         }
 
-        .user-name { font-size: 14px; font-weight: 500; }
+        .user-details {
+          overflow: hidden;
+        }
+
+        .user-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-role { font-size: 12px; color: rgba(255,255,255,0.5); }
 
         .logout-btn {
@@ -217,6 +272,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           flex: 1;
           margin-left: 260px;
           min-height: 100vh;
+          display: flex;
+          flex-direction: column;
         }
 
         @media (max-width: 768px) {
@@ -225,19 +282,29 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         .top-bar {
           background: white;
-          padding: 16px 24px;
+          padding: 12px 16px;
           border-bottom: 1px solid #e0e0e0;
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 12px;
+          position: sticky;
+          top: 0;
+          z-index: 50;
         }
 
         .menu-toggle {
           display: none;
-          background: none;
+          background: #f0f0f0;
           border: none;
-          font-size: 24px;
+          font-size: 20px;
           cursor: pointer;
+          padding: 8px 12px;
+          border-radius: 8px;
+        }
+
+        .menu-toggle:hover {
+          background: #e0e0e0;
         }
 
         @media (max-width: 768px) {
@@ -247,13 +314,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         .referral-badge {
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           color: white;
-          padding: 8px 16px;
+          padding: 8px 12px;
           border-radius: 20px;
-          font-size: 13px;
+          font-size: 12px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        @media (max-width: 480px) {
+          .referral-badge {
+            font-size: 11px;
+            padding: 6px 10px;
+          }
         }
 
         .content {
-          padding: 24px;
+          padding: 16px;
+          flex: 1;
+        }
+
+        @media (min-width: 768px) {
+          .content {
+            padding: 24px;
+          }
         }
       `}</style>
 
