@@ -216,16 +216,17 @@ export default function PromoCodesPage() {
                         <div className="form-grid">
                             {!editingPromo && (
                                 <div className="form-group">
-                                    <label>Kode Promo (6 karakter)</label>
+                                    <label>Kode Promo (3-10 karakter)</label>
                                     <input
                                         type="text"
                                         value={formCode}
-                                        onChange={(e) => setFormCode(e.target.value.toUpperCase().slice(0, 6))}
+                                        onChange={(e) => setFormCode(e.target.value.toUpperCase().slice(0, 10))}
                                         placeholder="LAUNCH"
                                         required
-                                        maxLength={6}
-                                        pattern="[A-Z0-9]{6}"
-                                        title="6 karakter alfanumerik"
+                                        maxLength={10}
+                                        minLength={3}
+                                        pattern="[A-Z0-9]{3,10}"
+                                        title="3-10 karakter alfanumerik"
                                     />
                                 </div>
                             )}
