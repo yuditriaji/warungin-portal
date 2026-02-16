@@ -213,3 +213,87 @@ export async function getMyStats() {
     const res = await api<{ data: MyStats }>('/portal/my/stats');
     return res.data;
 }
+
+// Types - Promo Codes
+export interface PromoCode {
+    id: string;
+    code: string;
+    referral_code: string | null;
+    full_code: string;
+    discount_type: 'percentage' | 'fixed';
+    discount_value: number;
+    valid_from: string;
+    valid_until: string;
+    max_uses: number | null;
+    current_uses: number;
+    applicable_plans: string;
+    is_active: boolean;
+    created_by: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface PromoCodeUsage {
+    id: string;
+    promo_code_id: string;
+    tenant_id: string;
+    invoice_id: string;
+    discount_amount: number;
+    created_at: string;
+    tenant?: Tenant;
+}
+
+// Super Admin - Promo Codes
+export async function createPromoCode(data: {
+    code: string;
+    referral_code?: string;
+    discount_type: string;
+    discount_value: number;
+    valid_from: string;
+    valid_until: string;
+    max_uses?: number;
+    applicable_plans?: string;
+}) {
+    const res = await api<{ message: string; promo_code: PromoCode }>('/portal/promo-codes', {
+        method: 'POST',
+        body: JSON.stringify(data),
+    });
+    return res;
+}
+
+export async function listPromoCodes(status?: string) {
+    const query = status ? `?status=${status}` : '';
+    const res = await api<{ promo_codes: PromoCode[]; total: number }>(`/portal/promo-codes${query}`);
+    return res;
+}
+
+export async function getPromoCode(id: string) {
+    const res = await api<{ promo_code: PromoCode; usage_count: number }>(`/portal/promo-codes/${id}`);
+    return res;
+}
+
+export async function updatePromoCode(id: string, data: Partial<{
+    referral_code: string;
+    discount_type: string;
+    discount_value: number;
+    valid_from: string;
+    valid_until: string;
+    max_uses: number;
+    applicable_plans: string;
+    is_active: boolean;
+}>) {
+    const res = await api<{ message: string; promo_code: PromoCode }>(`/portal/promo-codes/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+    });
+    return res;
+}
+
+export async function deactivatePromoCode(id: string) {
+    await api(`/portal/promo-codes/${id}`, { method: 'DELETE' });
+}
+
+export async function getPromoCodeUsages(id: string) {
+    const res = await api<{ usages: PromoCodeUsage[]; total: number }>(`/portal/promo-codes/${id}/usages`);
+    return res;
+}

@@ -59,6 +59,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { href: '/dashboard', label: 'Dashboard', icon: '📊' },
       { href: '/dashboard/affiliators', label: 'Affiliators', icon: '👥' },
       { href: '/dashboard/tenants', label: 'Tenants', icon: '🏪' },
+      { href: '/dashboard/promo-codes', label: 'Promo Codes', icon: '🎟️' },
       { href: '/dashboard/earnings', label: 'Earnings', icon: '💰' },
       { href: '/dashboard/payouts', label: 'Payouts', icon: '💸' },
     ]
