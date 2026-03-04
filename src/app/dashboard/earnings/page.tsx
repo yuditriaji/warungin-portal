@@ -115,7 +115,7 @@ export default function EarningsPage() {
         .page { max-width: 1200px; }
         
         .page-header { margin-bottom: 24px; }
-        h1 { margin: 0; font-size: 28px; color: #1a1a2e; }
+        h1 { margin: 0; font-size: 24px; color: #1a1a2e; }
         .page-header p { margin: 4px 0 0; color: #666; }
 
         .stats-row {
@@ -125,18 +125,22 @@ export default function EarningsPage() {
           margin-bottom: 24px;
         }
 
+        @media (max-width: 480px) {
+          .stats-row { grid-template-columns: 1fr; gap: 12px; }
+        }
+
         .stat-card {
           background: white;
-          padding: 20px;
+          padding: 16px 20px;
           border-radius: 16px;
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 14px;
           box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
-        .stat-icon { font-size: 32px; }
-        .stat-label { font-size: 13px; color: #666; }
-        .stat-value { font-size: 24px; font-weight: 700; color: #1a1a2e; }
+        .stat-icon { font-size: 28px; flex-shrink: 0; }
+        .stat-label { font-size: 12px; color: #666; }
+        .stat-value { font-size: 20px; font-weight: 700; color: #1a1a2e; }
 
         .stat-card.pending { border-left: 4px solid #f59e0b; }
         .stat-card.paid { border-left: 4px solid #10b981; }
@@ -154,32 +158,35 @@ export default function EarningsPage() {
         .table-card {
           background: white;
           border-radius: 16px;
-          overflow: hidden;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
           box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
         
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; min-width: 580px; }
         th, td {
-          padding: 16px;
+          padding: 13px 16px;
           text-align: left;
           border-bottom: 1px solid #f0f0f0;
         }
         th {
           background: #f9fafb;
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 600;
           color: #666;
           text-transform: uppercase;
+          white-space: nowrap;
         }
 
         .plan-badge {
           background: #ede9fe;
           color: #7c3aed;
-          padding: 4px 12px;
+          padding: 3px 10px;
           border-radius: 20px;
           font-size: 12px;
           font-weight: 500;
           text-transform: capitalize;
+          white-space: nowrap;
         }
 
         .commission {
@@ -188,13 +195,18 @@ export default function EarningsPage() {
         }
 
         .status-badge {
-          padding: 4px 12px;
+          padding: 3px 10px;
           border-radius: 20px;
           font-size: 12px;
           font-weight: 500;
+          white-space: nowrap;
         }
         .status-badge.pending { background: #fef3c7; color: #d97706; }
         .status-badge.paid { background: #dcfce7; color: #16a34a; }
+
+        @media (max-width: 480px) {
+          h1 { font-size: 20px; }
+        }
       `}</style>
         </div>
     );

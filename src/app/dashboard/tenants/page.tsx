@@ -124,7 +124,7 @@ export default function TenantsPage() {
         .page { max-width: 1200px; }
         
         .page-header { margin-bottom: 24px; }
-        h1 { margin: 0; font-size: 28px; color: #1a1a2e; }
+        h1 { margin: 0; font-size: 24px; color: #1a1a2e; }
         .page-header p { margin: 4px 0 0; color: #666; }
 
         .loading, .empty-state {
@@ -138,52 +138,61 @@ export default function TenantsPage() {
         .table-card {
           background: white;
           border-radius: 16px;
-          overflow: hidden;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
           box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
         
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
         th, td {
-          padding: 16px;
+          padding: 14px 16px;
           text-align: left;
           border-bottom: 1px solid #f0f0f0;
         }
         th {
           background: #f9fafb;
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 600;
           color: #666;
           text-transform: uppercase;
+          white-space: nowrap;
         }
 
-        .tenant-cell { }
         .tenant-name { font-weight: 500; color: #1a1a2e; }
-        .tenant-email { font-size: 13px; color: #666; }
+        .tenant-email { font-size: 12px; color: #666; }
 
         .affiliate-badge {
           background: #dbeafe;
           color: #2563eb;
-          padding: 4px 12px;
+          padding: 4px 10px;
           border-radius: 20px;
-          font-size: 13px;
+          font-size: 12px;
+          white-space: nowrap;
         }
 
         .no-affiliate {
           color: #999;
-          font-size: 13px;
+          font-size: 12px;
         }
 
         .assign-select {
-          padding: 8px 12px;
+          padding: 7px 10px;
           border: 2px solid #e0e0e0;
           border-radius: 8px;
           font-size: 13px;
           cursor: pointer;
-          min-width: 160px;
+          min-width: 140px;
+          max-width: 200px;
+          width: 100%;
         }
         .assign-select:focus {
           outline: none;
           border-color: #667eea;
+        }
+
+        @media (max-width: 480px) {
+          h1 { font-size: 20px; }
+          th, td { padding: 10px 12px; }
         }
       `}</style>
         </div>

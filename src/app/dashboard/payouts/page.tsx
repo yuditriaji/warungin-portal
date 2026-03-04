@@ -160,7 +160,7 @@ export default function PayoutsPage() {
         .page { max-width: 1200px; }
         
         .page-header { margin-bottom: 24px; }
-        h1 { margin: 0; font-size: 28px; color: #1a1a2e; }
+        h1 { margin: 0; font-size: 24px; color: #1a1a2e; }
         .page-header p { margin: 4px 0 0; color: #666; }
 
         .message {
@@ -173,7 +173,7 @@ export default function PayoutsPage() {
 
         .payout-form {
           background: white;
-          padding: 24px;
+          padding: 20px;
           border-radius: 16px;
           margin-bottom: 24px;
           box-shadow: 0 2px 12px rgba(0,0,0,0.06);
@@ -186,6 +186,12 @@ export default function PayoutsPage() {
           gap: 16px;
           align-items: end;
         }
+
+        @media (max-width: 640px) {
+          .form-grid { grid-template-columns: 1fr; }
+          .form-group button { width: 100%; }
+        }
+
         .form-group label {
           display: block;
           font-size: 13px;
@@ -196,13 +202,14 @@ export default function PayoutsPage() {
         .form-group select,
         .form-group input {
           width: 100%;
-          padding: 12px;
+          padding: 10px 12px;
           border: 2px solid #e0e0e0;
           border-radius: 10px;
           font-size: 14px;
+          box-sizing: border-box;
         }
         .form-group button {
-          padding: 12px 24px;
+          padding: 11px 20px;
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           color: white;
           border: none;
@@ -218,7 +225,7 @@ export default function PayoutsPage() {
 
         .bank-info {
           margin-top: 16px;
-          padding: 16px;
+          padding: 14px;
           background: #f9fafb;
           border-radius: 10px;
         }
@@ -230,32 +237,34 @@ export default function PayoutsPage() {
         .table-card {
           background: white;
           border-radius: 16px;
-          overflow: hidden;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
           box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
         
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; min-width: 520px; }
         th, td {
-          padding: 16px;
+          padding: 13px 16px;
           text-align: left;
           border-bottom: 1px solid #f0f0f0;
         }
         th {
           background: #f9fafb;
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 600;
           color: #666;
           text-transform: uppercase;
+          white-space: nowrap;
         }
 
         .user-cell {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 10px;
         }
         .avatar {
-          width: 36px;
-          height: 36px;
+          width: 32px;
+          height: 32px;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
           border-radius: 50%;
@@ -263,10 +272,17 @@ export default function PayoutsPage() {
           align-items: center;
           justify-content: center;
           font-weight: 600;
+          font-size: 13px;
+          flex-shrink: 0;
         }
 
         .bank-holder { font-size: 12px; color: #666; }
         .pending { color: #f59e0b; font-weight: 600; }
+
+        @media (max-width: 480px) {
+          h1 { font-size: 20px; }
+          .payout-form { padding: 16px; }
+        }
       `}</style>
         </div>
     );
