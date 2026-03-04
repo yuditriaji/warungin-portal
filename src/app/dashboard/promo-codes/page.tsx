@@ -464,8 +464,8 @@ export default function PromoCodesPage() {
                 .empty-state p { margin: 0; }
                 .empty-state.small { padding: 30px 20px; }
 
-                .table-card { background: white; border-radius: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-                table { width: 100%; border-collapse: collapse; min-width: 640px; }
+                .table-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+                table { width: 100%; border-collapse: collapse; }
                 th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid #f0f0f0; }
                 th { background: #f9fafb; font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; white-space: nowrap; }
 
