@@ -421,7 +421,7 @@ export default function PromoCodesPage() {
             )}
 
             <style jsx>{`
-                .page { max-width: 1200px; }
+                .page { max-width: 1200px; overflow: hidden; }
                 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
                 h1 { margin: 0; font-size: 28px; color: #1a1a2e; }
                 .page-header p { margin: 4px 0 0; color: #666; }
@@ -504,14 +504,27 @@ export default function PromoCodesPage() {
                   h1 { font-size: 20px; }
                   .header-actions { flex-wrap: wrap; width: 100%; }
                   .filter-select, .primary-btn { flex: 1; text-align: center; }
-                  .table-card { background: transparent; box-shadow: none; border-radius: 0; }
-                  table, thead, tbody, tr, td { display: block; width: 100%; }
+                  .table-card { background: transparent; box-shadow: none; border-radius: 0; overflow: visible; }
+                  table, thead, tbody { display: block; width: 100%; }
                   thead { display: none; }
-                  tr { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 12px; overflow: hidden; }
-                  td { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-bottom: 1px solid #f5f5f5; gap: 12px; }
+                  tr { display: block; background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 12px; overflow: hidden; width: 100%; }
+                  td {
+                    display: flex; align-items: center; padding: 11px 16px;
+                    border-bottom: 1px solid #f5f5f5; gap: 12px; overflow: hidden;
+                    width: 100%; box-sizing: border-box;
+                  }
                   tr td:last-child { border-bottom: none; }
-                  td::before { content: attr(data-label); font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; min-width: 56px; }
-                  .period-cell { font-size: 12px; }
+                  td::before {
+                    content: attr(data-label); font-size: 11px; font-weight: 700;
+                    color: #aaa; text-transform: uppercase; letter-spacing: 0.5px;
+                    flex: 0 0 72px; white-space: nowrap;
+                  }
+                  td > div, td > span {
+                    flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+                    text-align: right; white-space: nowrap;
+                  }
+                  .period-cell { font-size: 12px; white-space: normal; }
+                  .actions { justify-content: flex-end; }
                 }
             `}</style>
         </div>

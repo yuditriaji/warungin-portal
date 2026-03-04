@@ -112,7 +112,7 @@ export default function EarningsPage() {
             )}
 
             <style jsx>{`
-        .page { max-width: 1200px; }
+        .page { max-width: 1200px; overflow: hidden; }
         .page-header { margin-bottom: 24px; }
         h1 { margin: 0; font-size: 24px; color: #1a1a2e; }
         .page-header p { margin: 4px 0 0; color: #666; font-size: 14px; }
@@ -147,13 +147,25 @@ export default function EarningsPage() {
         /* Mobile card layout */
         @media (max-width: 640px) {
           .stats-row { grid-template-columns: 1fr; gap: 10px; }
-          .table-card { background: transparent; box-shadow: none; border-radius: 0; }
-          table, thead, tbody, tr, td { display: block; width: 100%; }
+          .table-card { background: transparent; box-shadow: none; border-radius: 0; overflow: visible; }
+          table, thead, tbody { display: block; width: 100%; }
           thead { display: none; }
-          tr { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 12px; overflow: hidden; }
-          td { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-bottom: 1px solid #f5f5f5; gap: 12px; }
+          tr { display: block; background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 12px; overflow: hidden; width: 100%; }
+          td {
+            display: flex; align-items: center; padding: 11px 16px;
+            border-bottom: 1px solid #f5f5f5; gap: 12px; overflow: hidden;
+            width: 100%; box-sizing: border-box;
+          }
           tr td:last-child { border-bottom: none; }
-          td::before { content: attr(data-label); font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; min-width: 80px; }
+          td::before {
+            content: attr(data-label); font-size: 11px; font-weight: 700;
+            color: #aaa; text-transform: uppercase; letter-spacing: 0.5px;
+            flex: 0 0 80px; white-space: nowrap;
+          }
+          td > div, td > span {
+            flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+            text-align: right; white-space: nowrap;
+          }
           h1 { font-size: 20px; }
         }
       `}</style>
