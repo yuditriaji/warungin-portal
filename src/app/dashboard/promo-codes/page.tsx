@@ -341,7 +341,7 @@ export default function PromoCodesPage() {
                                 const status = getStatus(promo);
                                 return (
                                     <tr key={promo.id}>
-                                        <td>
+                                        <td data-label="Kode">
                                             <div>
                                                 <code className="code full-code">{promo.full_code}</code>
                                                 {promo.referral_code && (
@@ -349,17 +349,17 @@ export default function PromoCodesPage() {
                                                 )}
                                             </div>
                                         </td>
-                                        <td>
+                                        <td data-label="Diskon">
                                             <span className="discount-badge">
                                                 {getDiscountDisplay(promo)}
                                             </span>
                                         </td>
-                                        <td>
+                                        <td data-label="Periode">
                                             <div className="period-cell">
                                                 {formatDate(promo.valid_from)} — {formatDate(promo.valid_until)}
                                             </div>
                                         </td>
-                                        <td>
+                                        <td data-label="Pakai">
                                             <span
                                                 className="usage-link"
                                                 onClick={() => openUsages(promo)}
@@ -367,10 +367,10 @@ export default function PromoCodesPage() {
                                                 {promo.current_uses}{promo.max_uses ? ` / ${promo.max_uses}` : ''}
                                             </span>
                                         </td>
-                                        <td>
+                                        <td data-label="Status">
                                             <span className={`badge ${status.className}`}>{status.label}</span>
                                         </td>
-                                        <td>
+                                        <td data-label="Aksi">
                                             <div className="actions">
                                                 <button onClick={() => openEdit(promo)} className="action-btn edit" title="Edit">✏️</button>
                                                 <button onClick={() => handleToggleActive(promo)} className="action-btn toggle"
@@ -500,11 +500,18 @@ export default function PromoCodesPage() {
                 .usage-item { padding: 14px; background: #f9fafb; border-radius: 10px; }
                 .usage-tenant { font-weight: 600; margin-bottom: 6px; }
                 .usage-meta { display: flex; justify-content: space-between; font-size: 13px; color: #666; }
-                @media (max-width: 480px) {
+                @media (max-width: 640px) {
                   h1 { font-size: 20px; }
-                  th, td { padding: 10px 12px; }
                   .header-actions { flex-wrap: wrap; width: 100%; }
-                  .filter-select, .primary-btn { flex: 1; }
+                  .filter-select, .primary-btn { flex: 1; text-align: center; }
+                  .table-card { background: transparent; box-shadow: none; border-radius: 0; }
+                  table, thead, tbody, tr, td { display: block; width: 100%; }
+                  thead { display: none; }
+                  tr { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 12px; overflow: hidden; }
+                  td { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-bottom: 1px solid #f5f5f5; gap: 12px; }
+                  tr td:last-child { border-bottom: none; }
+                  td::before { content: attr(data-label); font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; min-width: 56px; }
+                  .period-cell { font-size: 12px; }
                 }
             `}</style>
         </div>

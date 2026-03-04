@@ -132,23 +132,23 @@ export default function PayoutsPage() {
                         <tbody>
                             {affiliators.map((aff) => (
                                 <tr key={aff.id}>
-                                    <td>
+                                    <td data-label="Affiliator">
                                         <div className="user-cell">
                                             <div className="avatar">{aff.name.charAt(0)}</div>
                                             <span>{aff.name}</span>
                                         </div>
                                     </td>
-                                    <td>{aff.bank_name || '-'}</td>
-                                    <td>
+                                    <td data-label="Bank">{aff.bank_name || '-'}</td>
+                                    <td data-label="Account">
                                         <div>
                                             <div>{aff.bank_account || '-'}</div>
                                             <div className="bank-holder">{aff.bank_holder}</div>
                                         </div>
                                     </td>
-                                    <td className={aff.pending_payout > 0 ? 'pending' : ''}>
+                                    <td data-label="Pending" className={aff.pending_payout > 0 ? 'pending' : ''}>
                                         {formatCurrency(aff.pending_payout)}
                                     </td>
-                                    <td>{formatCurrency(aff.total_earnings)}</td>
+                                    <td data-label="Paid">{formatCurrency(aff.total_earnings)}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -158,128 +158,49 @@ export default function PayoutsPage() {
 
             <style jsx>{`
         .page { max-width: 1200px; }
-        
         .page-header { margin-bottom: 24px; }
         h1 { margin: 0; font-size: 24px; color: #1a1a2e; }
-        .page-header p { margin: 4px 0 0; color: #666; }
+        .page-header p { margin: 4px 0 0; color: #666; font-size: 14px; }
 
-        .message {
-          padding: 12px 16px;
-          border-radius: 10px;
-          margin-bottom: 16px;
-        }
+        .message { padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; }
         .message.success { background: #dcfce7; color: #16a34a; }
         .message.error { background: #fee2e2; color: #dc2626; }
 
-        .payout-form {
-          background: white;
-          padding: 20px;
-          border-radius: 16px;
-          margin-bottom: 24px;
-          box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-        }
+        .payout-form { background: white; padding: 20px; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
         .payout-form h3 { margin: 0 0 16px; }
-
-        .form-grid {
-          display: grid;
-          grid-template-columns: 2fr 1fr auto;
-          gap: 16px;
-          align-items: end;
-        }
-
-        @media (max-width: 640px) {
-          .form-grid { grid-template-columns: 1fr; }
-          .form-group button { width: 100%; }
-        }
-
-        .form-group label {
-          display: block;
-          font-size: 13px;
-          font-weight: 500;
-          margin-bottom: 6px;
-          color: #666;
-        }
-        .form-group select,
-        .form-group input {
-          width: 100%;
-          padding: 10px 12px;
-          border: 2px solid #e0e0e0;
-          border-radius: 10px;
-          font-size: 14px;
-          box-sizing: border-box;
-        }
-        .form-group button {
-          padding: 11px 20px;
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-          color: white;
-          border: none;
-          border-radius: 10px;
-          font-weight: 600;
-          cursor: pointer;
-          white-space: nowrap;
-        }
-        .form-group button:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .bank-info {
-          margin-top: 16px;
-          padding: 14px;
-          background: #f9fafb;
-          border-radius: 10px;
-        }
+        .form-grid { display: grid; grid-template-columns: 2fr 1fr auto; gap: 16px; align-items: end; }
+        .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: #666; }
+        .form-group select, .form-group input { width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 14px; box-sizing: border-box; }
+        .form-group button { padding: 11px 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .form-group button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .bank-info { margin-top: 16px; padding: 14px; background: #f9fafb; border-radius: 10px; }
         .bank-info h4 { margin: 0 0 8px; font-size: 14px; }
         .bank-info p { margin: 0; line-height: 1.6; }
-
         .loading { text-align: center; padding: 40px; color: #666; }
 
-        .table-card {
-          background: white;
-          border-radius: 16px;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-        }
-        
-        table { width: 100%; border-collapse: collapse; min-width: 520px; }
-        th, td {
-          padding: 13px 16px;
-          text-align: left;
-          border-bottom: 1px solid #f0f0f0;
-        }
-        th {
-          background: #f9fafb;
-          font-size: 12px;
-          font-weight: 600;
-          color: #666;
-          text-transform: uppercase;
-          white-space: nowrap;
-        }
+        /* Desktop table */
+        .table-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+        th { background: #f9fafb; font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; white-space: nowrap; }
+        tr:last-child td { border-bottom: none; }
 
-        .user-cell {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-        .avatar {
-          width: 32px;
-          height: 32px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 600;
-          font-size: 13px;
-          flex-shrink: 0;
-        }
-
+        .user-cell { display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0; }
         .bank-holder { font-size: 12px; color: #666; }
         .pending { color: #f59e0b; font-weight: 600; }
 
-        @media (max-width: 480px) {
+        /* Mobile card layout */
+        @media (max-width: 640px) {
+          .form-grid { grid-template-columns: 1fr; }
+          .form-group button { width: 100%; }
+          .table-card { background: transparent; box-shadow: none; border-radius: 0; }
+          table, thead, tbody, tr, td { display: block; width: 100%; }
+          thead { display: none; }
+          tr { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 12px; overflow: hidden; }
+          td { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-bottom: 1px solid #f5f5f5; gap: 12px; }
+          tr td:last-child { border-bottom: none; }
+          td::before { content: attr(data-label); font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; min-width: 72px; }
           h1 { font-size: 20px; }
           .payout-form { padding: 16px; }
         }

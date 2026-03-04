@@ -129,17 +129,17 @@ export default function AffiliatorsPage() {
             <tbody>
               {affiliators.map((aff) => (
                 <tr key={aff.id}>
-                  <td>
+                  <td data-label="Name">
                     <div className="user-cell">
                       <div className="avatar">{aff.name.charAt(0)}</div>
                       <span>{aff.name}</span>
                     </div>
                   </td>
-                  <td>{aff.email}</td>
-                  <td><code className="code">{aff.referral_code}</code></td>
-                  <td>{aff.tenant_count}</td>
-                  <td>{formatCurrency(aff.pending_payout)}</td>
-                  <td>
+                  <td data-label="Email">{aff.email}</td>
+                  <td data-label="Referral"><code className="code">{aff.referral_code}</code></td>
+                  <td data-label="Tenants">{aff.tenant_count}</td>
+                  <td data-label="Pending">{formatCurrency(aff.pending_payout)}</td>
+                  <td data-label="Status">
                     <span className={`badge ${aff.is_active ? 'active' : 'inactive'}`}>
                       {aff.is_active ? 'Active' : 'Inactive'}
                     </span>
@@ -286,44 +286,24 @@ export default function AffiliatorsPage() {
           text-transform: uppercase;
           white-space: nowrap;
         }
+        tr:last-child td { border-bottom: none; }
 
-        .user-cell {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-        .avatar {
-          width: 32px;
-          height: 32px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 600;
-          font-size: 13px;
-          flex-shrink: 0;
-        }
-
-        .code {
-          background: #f5f5f5;
-          padding: 3px 7px;
-          border-radius: 4px;
-          font-size: 12px;
-        }
-
-        .badge {
-          padding: 3px 10px;
-          border-radius: 20px;
-          font-size: 12px;
-          font-weight: 500;
-          white-space: nowrap;
-        }
+        .user-cell { display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0; }
+        .code { background: #f5f5f5; padding: 3px 7px; border-radius: 4px; font-size: 12px; }
+        .badge { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
         .badge.active { background: #dcfce7; color: #16a34a; }
         .badge.inactive { background: #fee2e2; color: #dc2626; }
 
-        @media (max-width: 480px) {
+        /* Mobile card layout */
+        @media (max-width: 640px) {
+          .table-card { background: transparent; box-shadow: none; border-radius: 0; }
+          table, thead, tbody, tr, td { display: block; width: 100%; }
+          thead { display: none; }
+          tr { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 12px; overflow: hidden; }
+          td { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-bottom: 1px solid #f5f5f5; gap: 12px; }
+          tr td:last-child { border-bottom: none; }
+          td::before { content: attr(data-label); font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; min-width: 72px; }
           h1 { font-size: 20px; }
           .invite-form { padding: 16px; }
         }
